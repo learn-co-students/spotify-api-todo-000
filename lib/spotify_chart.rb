@@ -3,15 +3,24 @@ require 'open-uri'
 
 class SpotifyChart
 
-  BASE_URL = "?"
+  attr_reader :newURL
+
+  BASE_URL = "http://charts.spotify.com/api/tracks/most_streamed"
+
+  def initialize(url = nil)
+    BASE_URL
+  end
 
   def get_url(region)
-    # return a string that is the BASE_URL/region/weekly/latest
+    # BASE_URL.gsub("", "http://charts.spotify.com/api/tracks/most_streamed/#{region}/weekly/latest")
+    @newURL = BASE_URL + "/#{region}/weekly/latest"
+    return newURL
   end
 
   def get_json(url)
     # load json given a url here
     # refer to the references if you have questions about this
+    JSON.load(open(url))
   end
 
   def get_first_track_info(music_hash)
@@ -38,6 +47,7 @@ class SpotifyChart
   
     # the track name, artist name, and album name should be the first track in the
     # tracks array
+    return "#{music_hash["tracks"][0]["track_name"]} by #{music_hash["tracks"][0]["artist_name"]} from the album #{music_hash["tracks"][0]["album_name"]}"
   end
 
 
@@ -49,6 +59,10 @@ class SpotifyChart
     
     # finally, call on #get_first_track_info using the 
     # hash that #get_json returns
+
+    thisURL = get_url(region)
+    thisotherURL = get_json(thisURL)
+    get_first_track_info(thisotherURL)
   end
 
 end
