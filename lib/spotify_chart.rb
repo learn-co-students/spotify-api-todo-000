@@ -3,15 +3,17 @@ require 'open-uri'
 
 class SpotifyChart
 
-  BASE_URL = "?"
+  BASE_URL = "http://charts.spotify.com/api/tracks/most_streamed"
 
   def get_url(region)
     # return a string that is the BASE_URL/region/weekly/latest
+    "#{BASE_URL}/#{region}/weekly/latest"
   end
 
   def get_json(url)
     # load json given a url here
     # refer to the references if you have questions about this
+    
   end
 
   def get_first_track_info(music_hash)
